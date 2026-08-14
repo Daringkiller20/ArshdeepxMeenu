@@ -1,0 +1,302 @@
+<!doctype html>
+
+<div id="passwordGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="password-box">
+    <div class="password-heart">♡</div>
+    <div class="eyebrow">A little something for you</div>
+    <h1 id="gateTitle">For Meenu.</h1>
+    <p>Some stories aren't meant for everyone.<br>Enter the little secret that belongs to us.</p>
+    <form class="password-form" id="passwordForm">
+      <input id="storyPassword" type="password" autocomplete="off" placeholder="Secret word" aria-label="Secret word">
+      <button type="submit">Open our story</button>
+    </form>
+    <p class="password-error" id="passwordError" aria-live="polite"></p>
+    <p class="password-hint">There may be a very silly word you already know. ♡</p>
+  </div>
+</div>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>07 April 2026 · The beginning of our date story</title><style>
+:root{
+ --bg:#f8dce5;--bg2:#f5cbd8;--ink:#3b2530;--muted:#765d68;
+ --pink:#d96f91;--deep:#9e4f70;--cream:#fff6f8;--line:rgba(91,45,62,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:linear-gradient(to bottom,rgba(248,220,229,.92),transparent);backdrop-filter:blur(7px)}
+.nav b{font:italic 1.15rem Georgia,serif}.nav a{text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.scroll-story{height:100svh;overflow-y:auto;scroll-snap-type:y mandatory}
+.scene{min-height:100svh;scroll-snap-align:start;position:relative;display:grid;place-items:center;padding:80px 6vw;overflow:hidden}
+.scene-inner{position:relative;z-index:3;max-width:900px;width:100%}
+.kicker{font-size:.72rem;letter-spacing:.23em;text-transform:uppercase;color:var(--deep)}
+h1,h2,h3{font-family:Georgia,serif;font-weight:400}
+h1{font-size:clamp(4rem,12vw,9rem);line-height:.84;margin:20px 0}
+h2{font-size:clamp(2.8rem,7vw,6rem);line-height:.92;margin:10px 0 25px}
+h3{font-size:2.2rem;margin:0 0 12px}
+p{font-size:1.05rem;line-height:1.85;color:var(--muted);max-width:680px}
+.center{text-align:center}.center p{margin-left:auto;margin-right:auto}
+.btn{display:inline-block;margin:8px 5px;padding:11px 18px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.8rem;letter-spacing:.08em}
+.btn.primary{background:var(--deep);color:white;border-color:transparent}
+.fade-photo{position:absolute;z-index:1;pointer-events:none;opacity:.82;filter:saturate(.86)}
+.fade-photo img{display:block;max-width:100%;height:auto;mix-blend-mode:multiply;mask-image:linear-gradient(to bottom,transparent 0%,#000 14%,#000 78%,transparent 100%),linear-gradient(to right,transparent 0%,#000 13%,#000 87%,transparent 100%);mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 14%,#000 78%,transparent 100%),linear-gradient(to right,transparent 0%,#000 13%,#000 87%,transparent 100%);-webkit-mask-composite:source-in}
+.f1{width:min(47vw,540px);right:3vw;top:13vh;transform:rotate(4deg)}.f2{width:min(38vw,430px);left:2vw;bottom:8vh;transform:rotate(-5deg)}.f3{width:min(31vw,350px);right:14vw;bottom:5vh;transform:rotate(-3deg)}
+.blend-photo{position:absolute;inset:0;z-index:0;opacity:.34;pointer-events:none;background-position:center;background-size:cover;background-repeat:no-repeat;filter:saturate(.7)}
+.blend-photo:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,transparent 20%,var(--bg) 88%),linear-gradient(to bottom,var(--bg) 0%,transparent 28%,transparent 72%,var(--bg) 100%)}
+.chapter{display:grid;grid-template-columns:.85fr 1.15fr;gap:7vw;align-items:center}
+.chapter-copy{position:relative;z-index:4}.chapter-photo{position:relative;z-index:2}
+.chapter-photo img{width:100%;max-height:72vh;object-fit:contain;opacity:.9;mask-image:radial-gradient(ellipse at center,#000 52%,transparent 84%);-webkit-mask-image:radial-gradient(ellipse at center,#000 52%,transparent 84%);mix-blend-mode:multiply}
+.date-link{cursor:pointer;display:inline-block;border-bottom:1px solid rgba(91,45,62,.25);padding-bottom:3px}
+.date-link:hover{color:var(--deep)}
+.memory-cloud{position:absolute;inset:0;z-index:1}
+.cloud-item{position:absolute;width:clamp(150px,21vw,270px);opacity:.52;filter:saturate(.72);mix-blend-mode:multiply}
+.cloud-item img{width:100%;mask-image:radial-gradient(ellipse,#000 42%,transparent 79%);-webkit-mask-image:radial-gradient(ellipse,#000 42%,transparent 79%)}
+.cloud-item:nth-child(1){left:3%;top:8%;transform:rotate(-7deg)}
+.cloud-item:nth-child(2){right:4%;top:10%;transform:rotate(6deg)}
+.cloud-item:nth-child(3){left:11%;bottom:6%;transform:rotate(4deg)}
+.cloud-item:nth-child(4){right:14%;bottom:8%;transform:rotate(-5deg)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}.scene.active .reveal{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+.date-page{min-height:100svh;background:var(--pagebg,var(--bg));position:relative;overflow:hidden}
+.date-page .hero{min-height:100svh;display:grid;place-items:center;padding:90px 7vw;position:relative}
+.date-page .hero-copy{position:relative;z-index:3;max-width:850px}
+.date-page .hero h1{font-size:clamp(3.6rem,11vw,8.5rem)}
+.date-page .section{min-height:100svh;display:grid;place-items:center;padding:90px 7vw;position:relative}
+.date-page .text{max-width:760px;position:relative;z-index:4}
+.full-fade{position:absolute;inset:5% 4%;z-index:1;display:grid;place-items:center;pointer-events:none}
+.full-fade img{max-width:90%;max-height:78vh;object-fit:contain;opacity:.3;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse,#000 35%,transparent 76%);-webkit-mask-image:radial-gradient(ellipse,#000 35%,transparent 76%)}
+.back{position:fixed;top:18px;left:22px;z-index:60;text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.note{font:italic 1.35rem/1.6 Georgia,serif;color:var(--ink);max-width:680px}
+.date-gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;max-width:1100px;position:relative;z-index:3}
+.date-gallery img{width:clamp(150px,24vw,280px);max-height:330px;object-fit:contain;opacity:.68;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse,#000 40%,transparent 82%);-webkit-mask-image:radial-gradient(ellipse,#000 40%,transparent 82%);transition:.35s}
+.date-gallery img:hover{opacity:.95;mix-blend-mode:normal}
+@media(max-width:800px){
+ .chapter{grid-template-columns:1fr}.chapter-photo{max-width:700px;margin:auto}
+ .fade-photo.f1{width:60vw;right:-12vw;top:12vh}.fade-photo.f2{width:55vw;left:-12vw}
+ .cloud-item{width:34vw}.cloud-item:nth-child(3),.cloud-item:nth-child(4){bottom:2%}
+ .nav{padding:15px 18px}
+}
+
+/* Softly dissolve every image into the page at its side margins. */
+.fade-photo img,
+.chapter-photo img,
+.date-fade img,
+.date-gallery img,
+.full-fade img,
+.cloud-item img {
+  -webkit-mask-image:
+    radial-gradient(ellipse at center, #000 48%, transparent 88%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  mask-image:
+    radial-gradient(ellipse at center, #000 48%, transparent 88%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* The photos used behind the date text can be slightly clearer now. */
+.date-fade img {
+  opacity: .58 !important;
+}
+
+/* Keep the two intentionally subtle hero photos soft. */
+.fade-photo.f1 { opacity:.40 !important; }
+.fade-photo.f3 { opacity:.36 !important; }
+
+
+/* Consistent composition across laptop and phone */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.scene-inner{width:min(1050px,100%);margin:0 auto}
+.date-chapters .scene-inner{width:min(1050px,100%);margin:0 auto}
+.date-card{width:100%}
+.date-card .date-copy{max-width:560px}
+@media (max-width:760px){
+  .scroll-story{scroll-snap-type:y mandatory}
+  .scene{min-height:100svh;padding:76px 18px}
+  .scene-inner{width:100%;max-width:100%}
+  .story-grid{grid-template-columns:1fr!important;gap:28px!important}
+  .chapter-photo{order:2;max-width:92vw;margin:0 auto}
+  .chapter-photo img{max-height:42svh!important}
+  .fade-photo.f1{width:56vw!important;right:-8vw!important;top:10vh!important}
+  .fade-photo.f2{width:50vw!important;left:-10vw!important;bottom:7vh!important}
+  .fade-photo.f3{width:45vw!important;right:-7vw!important}
+  .date-chapters{padding-left:14px!important;padding-right:14px!important}
+  .date-list{gap:28px!important}
+  .date-card,.date-card.reverse{
+    grid-template-columns:1fr!important;
+    min-height:460px!important;
+    width:100%!important;
+  }
+  .date-card .date-copy,.date-card.reverse .date-copy{
+    grid-column:1!important;
+    padding:30px 18px 16px!important;
+    max-width:100%!important;
+  }
+  .date-card h3{font-size:clamp(1.65rem,8vw,2.35rem)!important}
+  .date-card p{font-size:.92rem!important;max-width:100%!important}
+  .date-fade,.date-card.reverse .date-fade{
+    inset:27% 0 0!important;
+    width:100%!important;
+  }
+  .date-fade img:first-child,.date-card.reverse .date-fade img:first-child{
+    right:5%!important;left:auto!important;top:4%!important;width:64%!important;
+  }
+  .date-fade img:nth-child(2),.date-card.reverse .date-fade img:nth-child(2){
+    left:8%!important;right:auto!important;bottom:0!important;width:48%!important;
+  }
+  .date-open{font-size:.72rem!important;padding:11px 17px!important}
+  .nav{padding:13px 16px!important}
+  .nav a{font-size:.68rem!important}
+}
+@media (max-width:430px){
+  h1{font-size:clamp(3.25rem,18vw,5rem)!important}
+  h2{font-size:clamp(2.35rem,12vw,4rem)!important}
+  .note{font-size:.98rem!important}
+  .date-card{min-height:445px!important}
+}
+
+#passwordGate{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:28px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.55),transparent 28%),
+    radial-gradient(circle at 80% 75%,rgba(217,111,145,.18),transparent 32%),
+    #f8dce5;
+  transition:opacity .8s ease,visibility .8s ease;
+}
+#passwordGate.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.password-box{
+  width:min(470px,100%);text-align:center;padding:44px 30px;
+  border:1px solid rgba(91,45,62,.12);border-radius:30px;
+  background:rgba(255,246,248,.55);
+  box-shadow:0 25px 80px rgba(91,45,62,.12);
+  backdrop-filter:blur(18px);
+}
+.password-heart{font-size:2rem;margin-bottom:12px}
+.password-box .eyebrow{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#9e4f70}
+.password-box h1{font-size:clamp(2.7rem,10vw,4.7rem);margin:14px 0 18px;color:#3b2530;background:none;-webkit-text-fill-color:initial}
+.password-box p{margin:0 auto 24px;color:#765d68;max-width:350px}
+.password-form{display:flex;gap:9px;max-width:360px;margin:auto}
+.password-form input{
+  flex:1;min-width:0;padding:13px 15px;border-radius:999px;
+  border:1px solid rgba(91,45,62,.18);outline:none;background:rgba(255,255,255,.72);
+  color:#3b2530;font:inherit;text-align:center;
+}
+.password-form input:focus{border-color:#d96f91;box-shadow:0 0 0 3px rgba(217,111,145,.12)}
+.password-form button{
+  padding:13px 18px;border:0;border-radius:999px;background:#9e4f70;color:#fff;
+  font:inherit;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+.password-form button:hover{background:#833f5c}
+.password-error{height:22px;margin-top:12px!important;color:#a34768!important;font-size:.84rem!important}
+.password-hint{font-size:.72rem!important;color:#927985!important;margin-top:20px!important}
+body.locked{overflow:hidden}
+@media(max-width:520px){
+  .password-box{padding:38px 20px}
+  .password-form{flex-direction:column}
+  .password-form button{width:100%}
+}
+</style></head><body class="locked" class="date-page" style="--pagebg:rgba(255,235,241,.85)">
+<a class="back" href="index.html">← our story</a>
+<div class="scroll-story">
+<section class="scene hero">
+ <div class="hero-copy">
+  <div class="kicker reveal">THE FIRST DATE</div><h1 class="reveal d1">The day getting to see you felt like a little victory.</h1><p class="note reveal d2">07 April 2026 was the beginning of the date memories I wanted to keep. Pizza Dot Com, a few hours together, and that strange happiness of finally getting to sit beside the girl I had been getting closer to.</p>
+ </div>
+ <div class="full-fade reveal d1" id="heroPhoto"></div>
+</section>
+
+<section class="scene">
+  <div class="full-fade" id="dateSpecificPhotos"></div>
+  <div class="text center">
+    <div class="kicker reveal">the photos from this day</div>
+    <p class="note reveal d1">These are the little pieces of this date that I want to keep close.</p>
+  </div>
+</section>
+<section class="scene">
+ <div class="text center">
+  <div class="kicker reveal">What I remember</div><h2 class="reveal d1">I remember looking at you and feeling lucky.</h2><p class="note reveal d2">There was something about seeing you in front of me instead of through a screen. You looked beautiful, and being close to you made the whole day feel lighter. Even the ordinary parts felt different because I was experiencing them with you.</p><p class="reveal d3">This was also part of our first little tradition of making time for each other. You had your clinical duty waiting for you, but somehow we still managed to steal those hours together before you had to get back for the bus.</p>
+ </div>
+ <div class="full-fade" id="secondPhoto"></div>
+</section>
+<section class="scene">
+ <div class="text">
+  <div class="kicker reveal">A detail I want to keep</div><h2 class="reveal d1">The first date didn't need to be perfect. It only needed to be ours — and it was.</h2><p class="reveal d2">The detail I want to keep is the feeling of finally seeing you in front of me after all the messages. You looked beautiful, but more than that, I loved the strange happiness of knowing you had chosen to spend those hours beside me.</p>
+ </div>
+ <div class="date-gallery reveal d2" id="dateGallery"></div>
+</section>
+<section class="scene">
+ <div class="text center">
+  <div class="kicker reveal">And then</div><h2 class="reveal d1">The first date didn't need to be perfect. It only needed to be ours — and it was.</h2><p class="note reveal d2">I would choose this memory again simply because it gave me another day beside you.</p>
+  <a class="btn primary reveal d3" href="index.html#dates">Back to our story</a>
+ </div>
+</section>
+</div>
+<script>
+const files=["IMG_20260407_135325(1).jpg", "IMG-20260407-WA0028(1).jpg", "IMG-20260407-WA0036(1).jpg"];
+const base="assets/";
+const specific=document.getElementById("dateSpecificPhotos");
+if(specific){
+  files.slice(0,2).forEach((f,i)=>{
+    const img=document.createElement("img");
+    img.src=base+f; img.alt="A memory from this date";
+    img.style.cssText="max-width:"+(i===0?"70%":"48%")+";max-height:70vh;object-fit:contain;opacity:"+(i===0?".38":".24")+";mix-blend-mode:multiply;mask-image:radial-gradient(ellipse,#000 35%,transparent 78%);-webkit-mask-image:radial-gradient(ellipse,#000 35%,transparent 78%);margin:"+(i===0?"auto":"-8% 0 0 45%");
+    specific.appendChild(img);
+  });
+}
+const scenes=[...document.querySelectorAll(".scene")];
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("active")}),{threshold:.35});
+scenes.forEach(s=>obs.observe(s));
+</script>
+<script>
+(function(){
+  const back = document.querySelector(".back");
+  if(back){
+    back.addEventListener("click",()=>{
+      // The index page reads this value and restores the exact scroll position.
+      sessionStorage.setItem("arshdeep_meenu_returning","1");
+    });
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  const PASSWORD = "Orangutan";
+  const gate = document.getElementById("passwordGate");
+  const form = document.getElementById("passwordForm");
+  const input = document.getElementById("storyPassword");
+  const error = document.getElementById("passwordError");
+  const KEY = "arshdeep_meenu_unlocked";
+
+  function unlock(){
+    sessionStorage.setItem(KEY,"1");
+    gate.classList.add("hidden");
+    document.body.classList.remove("locked");
+    setTimeout(()=>gate.remove(),850);
+  }
+
+  if(sessionStorage.getItem(KEY)==="1"){
+    gate.remove();
+    document.body.classList.remove("locked");
+  }else{
+    setTimeout(()=>input.focus(),300);
+  }
+
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(input.value === PASSWORD){
+      error.textContent="";
+      unlock();
+    }else{
+      error.textContent="Not quite. Try again, my love. ♡";
+      input.value="";
+      input.focus();
+    }
+  });
+})();
+</script>
+
+</body></html>
