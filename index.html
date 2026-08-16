@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arshdeep × Meenu · Somehow, It Became Us</title>
+<style>
+:root{
+ --bg:#f8dce5;--bg2:#f5cbd8;--ink:#3b2530;--muted:#765d68;
+ --pink:#d96f91;--deep:#9e4f70;--cream:#fff6f8;--line:rgba(91,45,62,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:linear-gradient(to bottom,rgba(248,220,229,.92),transparent);backdrop-filter:blur(7px)}
+.nav b{font:italic 1.15rem Georgia,serif}.nav a{text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.scroll-story{height:100svh;overflow-y:auto;scroll-snap-type:y mandatory}
+.scene{min-height:100svh;scroll-snap-align:start;position:relative;display:grid;place-items:center;padding:80px 6vw;overflow:hidden}
+.scene-inner{position:relative;z-index:3;max-width:900px;width:100%}
+.kicker{font-size:.72rem;letter-spacing:.23em;text-transform:uppercase;color:var(--deep)}
+h1,h2,h3{font-family:Georgia,serif;font-weight:400}
+h1{font-size:clamp(4rem,12vw,9rem);line-height:.84;margin:20px 0}
+h2{font-size:clamp(2.8rem,7vw,6rem);line-height:.92;margin:10px 0 25px}
+h3{font-size:2.2rem;margin:0 0 12px}
+p{font-size:1.05rem;line-height:1.85;color:var(--muted);max-width:680px}
+.center{text-align:center}.center p{margin-left:auto;margin-right:auto}
+.btn{display:inline-block;margin:8px 5px;padding:11px 18px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:.8rem;letter-spacing:.08em}
+.btn.primary{background:var(--deep);color:white;border-color:transparent}
+.fade-photo{position:absolute;z-index:1;pointer-events:none;opacity:.82;filter:saturate(.86)}
+.fade-photo img{display:block;max-width:100%;height:auto;mix-blend-mode:multiply;mask-image:linear-gradient(to bottom,transparent 0%,#000 14%,#000 78%,transparent 100%),linear-gradient(to right,transparent 0%,#000 13%,#000 87%,transparent 100%);mask-composite:intersect;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 14%,#000 78%,transparent 100%),linear-gradient(to right,transparent 0%,#000 13%,#000 87%,transparent 100%);-webkit-mask-composite:source-in}
+.f1{width:min(47vw,540px);right:3vw;top:13vh;transform:rotate(4deg)}.f2{width:min(38vw,430px);left:2vw;bottom:8vh;transform:rotate(-5deg)}.f3{width:min(31vw,350px);right:14vw;bottom:5vh;transform:rotate(-3deg)}
+.blend-photo{position:absolute;inset:0;z-index:0;opacity:.34;pointer-events:none;background-position:center;background-size:cover;background-repeat:no-repeat;filter:saturate(.7)}
+.blend-photo:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,transparent 20%,var(--bg) 88%),linear-gradient(to bottom,var(--bg) 0%,transparent 28%,transparent 72%,var(--bg) 100%)}
+.chapter{display:grid;grid-template-columns:.85fr 1.15fr;gap:7vw;align-items:center}
+.chapter-copy{position:relative;z-index:4}.chapter-photo{position:relative;z-index:2}
+.chapter-photo img{width:100%;max-height:72vh;object-fit:contain;opacity:.9;mask-image:radial-gradient(ellipse at center,#000 52%,transparent 84%);-webkit-mask-image:radial-gradient(ellipse at center,#000 52%,transparent 84%);mix-blend-mode:multiply}
+.date-link{cursor:pointer;display:inline-block;border-bottom:1px solid rgba(91,45,62,.25);padding-bottom:3px}
+.date-link:hover{color:var(--deep)}
+.memory-cloud{position:absolute;inset:0;z-index:1}
+.cloud-item{position:absolute;width:clamp(150px,21vw,270px);opacity:.52;filter:saturate(.72);mix-blend-mode:multiply}
+.cloud-item img{width:100%;mask-image:radial-gradient(ellipse,#000 42%,transparent 79%);-webkit-mask-image:radial-gradient(ellipse,#000 42%,transparent 79%)}
+.cloud-item:nth-child(1){left:3%;top:8%;transform:rotate(-7deg)}
+.cloud-item:nth-child(2){right:4%;top:10%;transform:rotate(6deg)}
+.cloud-item:nth-child(3){left:11%;bottom:6%;transform:rotate(4deg)}
+.cloud-item:nth-child(4){right:14%;bottom:8%;transform:rotate(-5deg)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}.scene.active .reveal{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+.date-page{min-height:100svh;background:var(--pagebg,var(--bg));position:relative;overflow:hidden}
+.date-page .hero{min-height:100svh;display:grid;place-items:center;padding:90px 7vw;position:relative}
+.date-page .hero-copy{position:relative;z-index:3;max-width:850px}
+.date-page .hero h1{font-size:clamp(3.6rem,11vw,8.5rem)}
+.date-page .section{min-height:100svh;display:grid;place-items:center;padding:90px 7vw;position:relative}
+.date-page .text{max-width:760px;position:relative;z-index:4}
+.full-fade{position:absolute;inset:5% 4%;z-index:1;display:grid;place-items:center;pointer-events:none}
+.full-fade img{max-width:90%;max-height:78vh;object-fit:contain;opacity:.3;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse,#000 35%,transparent 76%);-webkit-mask-image:radial-gradient(ellipse,#000 35%,transparent 76%)}
+.back{position:fixed;top:18px;left:22px;z-index:60;text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+.note{font:italic 1.35rem/1.6 Georgia,serif;color:var(--ink);max-width:680px}
+.date-gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;max-width:1100px;position:relative;z-index:3}
+.date-gallery img{width:clamp(150px,24vw,280px);max-height:330px;object-fit:contain;opacity:.68;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse,#000 40%,transparent 82%);-webkit-mask-image:radial-gradient(ellipse,#000 40%,transparent 82%);transition:.35s}
+.date-gallery img:hover{opacity:.95;mix-blend-mode:normal}
+@media(max-width:800px){
+ .chapter{grid-template-columns:1fr}.chapter-photo{max-width:700px;margin:auto}
+ .fade-photo.f1{width:60vw;right:-12vw;top:12vh}.fade-photo.f2{width:55vw;left:-12vw}
+ .cloud-item{width:34vw}.cloud-item:nth-child(3),.cloud-item:nth-child(4){bottom:2%}
+ .nav{padding:15px 18px}
+}
+
+.date-list{display:grid;gap:38px;margin-top:42px}
+.date-card{
+  min-height:330px;position:relative;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;overflow:hidden;border-top:1px solid var(--line);
+}
+.date-card.reverse{grid-template-columns:1fr 1fr}
+.date-copy{position:relative;z-index:4;padding:35px 10px 35px 0;max-width:560px}
+.date-card.reverse .date-copy{grid-column:2;padding-left:40px;padding-right:0}
+.date-card h3{font-size:clamp(1.8rem,4vw,2.7rem);margin:8px 0 12px}
+.date-card p{font-size:.96rem;max-width:470px}
+.date-fade{
+  position:absolute;inset:0 0 0 38%;z-index:1;
+  background-repeat:no-repeat;background-position:center right;background-size:58% auto;
+  opacity:.46;filter:saturate(.72);mix-blend-mode:multiply;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 27%,#000 72%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 27%,#000 72%,transparent 100%);
+}
+.date-card.reverse .date-fade{
+  inset:0 38% 0 0;background-position:center left;
+  -webkit-mask-image:linear-gradient(to left,transparent 0%,#000 27%,#000 72%,transparent 100%);
+  mask-image:linear-gradient(to left,transparent 0%,#000 27%,#000 72%,transparent 100%);
+}
+.date-fade img{width:42%;max-height:300px;object-fit:contain;opacity:.9}
+@media(max-width:760px){
+ .date-card,.date-card.reverse{grid-template-columns:1fr;min-height:430px}
+ .date-card .date-copy,.date-card.reverse .date-copy{grid-column:1;padding:35px 18px 20px}
+ .date-fade,.date-card.reverse .date-fade{inset:25% 0 0 0;background-position:center bottom;background-size:80% auto;
+   -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 35%,#000 78%,transparent 100%);
+   mask-image:linear-gradient(to bottom,transparent 0%,#000 35%,#000 78%,transparent 100%);
+ }
+}
+
+
+.date-open{position:relative;z-index:20;display:inline-block;opacity:1!important;visibility:visible!important}
+.date-copy{z-index:20!important}
+.date-fade{z-index:2!important;pointer-events:none!important}
+.date-fade img{position:absolute!important;width:44%!important;height:auto!important;max-height:290px!important;object-fit:contain!important;opacity:.55!important;mix-blend-mode:multiply!important}
+.date-fade img:first-child{left:22%!important;top:8%!important}
+.date-fade img:nth-child(2){left:50%!important;top:28%!important}
+.date-card.reverse .date-fade img:first-child{left:28%!important}
+.date-card.reverse .date-fade img:nth-child(2){left:2%!important}
+
+.date-chapters{display:block!important;min-height:100svh!important;height:auto!important;padding-top:90px!important;padding-bottom:90px!important;overflow:visible!important}
+.date-chapters .scene-inner{width:100%!important;max-width:1050px!important}
+.date-list{display:grid!important;gap:46px!important;margin-top:42px!important}
+.date-card{position:relative!important;min-height:330px!important;display:grid!important;grid-template-columns:1fr 1fr!important;align-items:center!important;overflow:hidden!important;border-top:1px solid var(--line)!important}
+.date-copy{position:relative!important;z-index:30!important;padding:40px!important;max-width:580px!important}
+.date-card h3{font-size:clamp(1.8rem,4vw,2.7rem)!important;margin:8px 0 12px!important}
+.date-card p{font-size:.98rem!important;max-width:470px!important}
+.date-open{
+ display:inline-flex!important;position:relative!important;z-index:100!important;
+ align-items:center!important;gap:10px!important;margin-top:12px!important;
+ padding:13px 22px!important;border-radius:999px!important;
+ background:#9e4f70!important;color:#fff!important;
+ text-decoration:none!important;font-size:.78rem!important;
+ letter-spacing:.08em!important;text-transform:uppercase!important;
+ opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+ border:1px solid rgba(255,255,255,.25)!important;
+}
+.date-open:hover{background:#7f3f59!important;transform:translateY(-2px)}
+.date-fade{position:absolute!important;inset:0!important;z-index:2!important;pointer-events:none!important}
+.date-fade img{
+ position:absolute!important;width:39%!important;height:auto!important;max-height:310px!important;
+ object-fit:contain!important;opacity:.42!important;mix-blend-mode:multiply!important;
+ -webkit-mask-image:radial-gradient(ellipse,#000 30%,transparent 78%)!important;
+ mask-image:radial-gradient(ellipse,#000 30%,transparent 78%)!important;
+}
+.date-fade img:first-child{right:10%!important;top:4%!important}
+.date-fade img:nth-child(2){right:27%!important;bottom:0!important;width:31%!important;opacity:.30!important}
+@media(max-width:760px){
+ .date-card{grid-template-columns:1fr!important;min-height:480px!important}
+ .date-copy{padding:35px 20px!important}
+ .date-fade{inset:25% 0 0!important}
+ .date-fade img:first-child{right:4%!important;top:10%!important;width:62%!important}
+ .date-fade img:nth-child(2){right:35%!important;bottom:0!important;width:48%!important}
+}
+
+.fade-photo.f1{opacity:.43!important;filter:saturate(.72) blur(.25px)!important}
+.fade-photo.f3{opacity:.38!important;filter:saturate(.70) blur(.25px)!important}
+
+/* Softly dissolve every image into the page at its side margins. */
+.fade-photo img,
+.chapter-photo img,
+.date-fade img,
+.date-gallery img,
+.full-fade img,
+.cloud-item img {
+  -webkit-mask-image:
+    radial-gradient(ellipse at center, #000 48%, transparent 88%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  mask-image:
+    radial-gradient(ellipse at center, #000 48%, transparent 88%),
+    linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* The photos used behind the date text can be slightly clearer now. */
+.date-fade img {
+  opacity: .58 !important;
+}
+
+/* Keep the two intentionally subtle hero photos soft. */
+.fade-photo.f1 { opacity:.40 !important; }
+.fade-photo.f3 { opacity:.36 !important; }
+
+/* Give the very first index photo a slightly softer corner dissolve. */
+.fade-photo.f1 img {
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 46%, transparent 85%),
+    linear-gradient(to right, transparent 0%, #000 11%, #000 89%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, #000 46%, transparent 85%),
+    linear-gradient(to right, transparent 0%, #000 11%, #000 89%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+
+/* Consistent composition across laptop and phone */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+.scene-inner{width:min(1050px,100%);margin:0 auto}
+.date-chapters .scene-inner{width:min(1050px,100%);margin:0 auto}
+.date-card{width:100%}
+.date-card .date-copy{max-width:560px}
+@media (max-width:760px){
+  .scroll-story{scroll-snap-type:y mandatory}
+  .scene{min-height:100svh;padding:76px 18px}
+  .scene-inner{width:100%;max-width:100%}
+  .story-grid{grid-template-columns:1fr!important;gap:28px!important}
+  .chapter-photo{order:2;max-width:92vw;margin:0 auto}
+  .chapter-photo img{max-height:42svh!important}
+  .fade-photo.f1{width:56vw!important;right:-8vw!important;top:10vh!important}
+  .fade-photo.f2{width:50vw!important;left:-10vw!important;bottom:7vh!important}
+  .fade-photo.f3{width:45vw!important;right:-7vw!important}
+  .date-chapters{padding-left:14px!important;padding-right:14px!important}
+  .date-list{gap:28px!important}
+  .date-card,.date-card.reverse{
+    grid-template-columns:1fr!important;
+    min-height:460px!important;
+    width:100%!important;
+  }
+  .date-card .date-copy,.date-card.reverse .date-copy{
+    grid-column:1!important;
+    padding:30px 18px 16px!important;
+    max-width:100%!important;
+  }
+  .date-card h3{font-size:clamp(1.65rem,8vw,2.35rem)!important}
+  .date-card p{font-size:.92rem!important;max-width:100%!important}
+  .date-fade,.date-card.reverse .date-fade{
+    inset:27% 0 0!important;
+    width:100%!important;
+  }
+  .date-fade img:first-child,.date-card.reverse .date-fade img:first-child{
+    right:5%!important;left:auto!important;top:4%!important;width:64%!important;
+  }
+  .date-fade img:nth-child(2),.date-card.reverse .date-fade img:nth-child(2){
+    left:8%!important;right:auto!important;bottom:0!important;width:48%!important;
+  }
+  .date-open{font-size:.72rem!important;padding:11px 17px!important}
+  .nav{padding:13px 16px!important}
+  .nav a{font-size:.68rem!important}
+}
+@media (max-width:430px){
+  h1{font-size:clamp(3.25rem,18vw,5rem)!important}
+  h2{font-size:clamp(2.35rem,12vw,4rem)!important}
+  .note{font-size:.98rem!important}
+  .date-card{min-height:445px!important}
+}
+
+#passwordGate{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:28px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.55),transparent 28%),
+    radial-gradient(circle at 80% 75%,rgba(217,111,145,.18),transparent 32%),
+    #f8dce5;
+  transition:opacity .8s ease,visibility .8s ease;
+}
+#passwordGate.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.password-box{
+  width:min(470px,100%);text-align:center;padding:44px 30px;
+  border:1px solid rgba(91,45,62,.12);border-radius:30px;
+  background:rgba(255,246,248,.55);
+  box-shadow:0 25px 80px rgba(91,45,62,.12);
+  backdrop-filter:blur(18px);
+}
+.password-heart{width:58px;height:58px;margin:0 auto 14px;display:grid;place-items:center}
+.password-heart svg{width:54px;height:54px;overflow:visible}
+.password-heart .heart-lock-shackle{fill:none;stroke:#9e4f70;stroke-width:4;stroke-linecap:round}
+.password-heart .heart-lock-body{fill:#d96f91;stroke:#9e4f70;stroke-width:1.6}
+.password-heart .heart-lock-keyhole{fill:none;stroke:#fff6f8;stroke-width:2.8;stroke-linecap:round}
+.password-heart circle.heart-lock-keyhole{fill:#fff6f8;stroke:none}
+.password-box .eyebrow{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#9e4f70}
+.password-box h1{font-size:clamp(2.7rem,10vw,4.7rem);margin:14px 0 18px;color:#3b2530;background:none;-webkit-text-fill-color:initial}
+.password-box p{margin:0 auto 24px;color:#765d68;max-width:350px}
+.password-form{display:flex;gap:9px;max-width:360px;margin:auto}
+.password-form input{
+  flex:1;min-width:0;padding:13px 15px;border-radius:999px;
+  border:1px solid rgba(91,45,62,.18);outline:none;background:rgba(255,255,255,.72);
+  color:#3b2530;font:inherit;text-align:center;
+}
+.password-form input:focus{border-color:#d96f91;box-shadow:0 0 0 3px rgba(217,111,145,.12)}
+.password-form button{
+  padding:13px 18px;border:0;border-radius:999px;background:#9e4f70;color:#fff;
+  font:inherit;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+.password-form button:hover{background:#833f5c}
+.password-error{height:22px;margin-top:12px!important;color:#a34768!important;font-size:.84rem!important}
+.password-hint{font-size:.72rem!important;color:#927985!important;margin-top:20px!important}
+body.locked{overflow:hidden}
+@media(max-width:520px){
+  .password-box{padding:38px 20px}
+  .password-form{flex-direction:column}
+  .password-form button{width:100%}
+}
+</style>
+</head>
+<body class="locked">
+
+<div id="passwordGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="password-box">
+    <div class="password-heart" aria-hidden="true">
+      <svg viewBox="0 0 64 64" role="img">
+        <path class="heart-lock-shackle" d="M24 24v-5a8 8 0 0 1 16 0v5"/>
+        <path class="heart-lock-body" d="M32 54C28 50 11 39 11 26c0-7 5-12 12-12 4 0 7 2 9 5 2-3 5-5 9-5 7 0 12 5 12 12 0 13-17 24-21 28z"/>
+        <circle class="heart-lock-keyhole" cx="32" cy="31" r="3"/>
+        <path class="heart-lock-keyhole" d="M32 34v6"/>
+      </svg>
+    </div>
+    <div class="eyebrow">A little something for you</div>
+    <h1 id="gateTitle">For Meenu.</h1>
+    <p>Some stories aren't meant for everyone.<br>Enter the little secret that belongs to us.</p>
+    <form class="password-form" id="passwordForm">
+      <input id="storyPassword" type="password" autocomplete="off" placeholder="Secret word" aria-label="Secret word">
+      <button type="submit">Open our story</button>
+    </form>
+    <p class="password-error" id="passwordError" aria-live="polite"></p>
+    <p class="password-hint">There may be a very silly word you already know. ♡</p>
+  </div>
+</div>
+
+<nav class="nav"><b>Arshdeep × Meenu</b><a href="#dates">our story ↓</a></nav>
+
+<div class="scroll-story">
+
+<section class="scene center" id="beginning">
+  <div class="scene-inner">
+    <div class="kicker reveal">for my Laddi · my Paaro · my Rani</div>
+    <h1 class="reveal d1">Somehow,<br>it became us.</h1>
+    <p class="note reveal d2">This isn't just a collection of photographs. It's a little piece of our story — the places we've been, the moments I keep replaying, and the girl who somehow became such a big part of my life.</p>
+    <p class="reveal d3">So start here. And let the story unfold.</p>
+    <a class="btn primary reveal d3" href="#story">Begin with us</a>
+  </div>
+  <div class="fade-photo f1 reveal d2"><img src="assets/IMG-20260617-WA0004.jpg" alt="A later memory of Meenu"></div>
+  <div class="fade-photo f2 reveal d3"><img src="assets/IMG-20260607-WA0004.jpg" alt="A memory of us"></div>
+</section>
+
+<section class="scene" id="story">
+  <div class="scene-inner story-grid">
+    <div>
+      <div class="kicker reveal">01 · before everything</div>
+      <h2 class="reveal d1">It started with the wrong person.</h2>
+      <p class="reveal d2">You messaged me first on Instagram after getting my ID through someone else. At the time, the account had also been used by my friend, so you thought you were messaging someone connected to that story.</p>
+      <p class="reveal d3">You were looking for someone else. Somehow, you found me instead.</p>
+    </div>
+    <div class="chapter-photo reveal d2"><img src="assets/Screenshot_20260318_193304(1).jpg" alt="Meenu from the early days"></div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner center">
+    <div class="kicker reveal">02 · the accident that mattered</div>
+    <h2 class="reveal d1">Funny how life works.</h2>
+    <p class="note reveal d2">The friends who unknowingly connected our paths aren't part of our lives anymore. But the connection they accidentally created stayed.</p>
+    <p class="reveal d3">A wrong assumption became a conversation. The conversation became flirting. And the flirting became something neither of us expected.</p>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner center">
+    <div class="kicker reveal">03 · “we'll only be friends”</div>
+    <h2 class="reveal d1">That promise lasted a few days.</h2>
+    <p class="note reveal d2">In the beginning, you were very clear: we were only going to be friends.</p>
+    <p class="reveal d2">Then came a few days of flirting.</p>
+    <p class="reveal d3">And eventually, you asked me if I was actually serious about being in a relationship with you.</p>
+    <p class="quote reveal d3">I was. And that was when we officially became us.</p>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="memory-cloud" id="growthCloud"></div>
+  <div class="scene-inner center">
+    <div class="kicker reveal">04 · the girl I got to watch grow</div>
+    <h2 class="reveal d1">You became more you.</h2>
+    <p class="note reveal d2">When I look at the early photos and compare them with the person I see now, I don't see someone who became a completely different person.</p>
+    <p class="reveal d2">I see someone who slowly became more confident, more expressive, more comfortable, and more willing to let the world see who she really is.</p>
+    <p class="reveal d3">And one of my favourite things about loving you is that I got to be there while that happened.</p>
+  </div>
+</section>
+
+
+
+
+<section class="scene date-chapters" id="dates">
+  <div class="scene-inner">
+    <div class="kicker">05 · our dates</div>
+    <h2>Eight little chapters.</h2>
+    <p class="note">Each date has one small detail I want to keep forever.</p>
+    <div class="date-list">
+      
+      <article class="date-card">
+        <div class="date-copy">
+          <div class="kicker">01 · 07 April 2026</div>
+          <h3>Where our date story began.</h3>
+          <p>The detail I want to keep is the feeling of finally having you beside me in real life — not through a screen, not through messages, just you sitting there with me.</p>
+          <a class="date-open" href="date1.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/IMG_20260407_135325(1).jpg" alt="">
+          <img src="assets/IMG-20260407-WA0036(1).jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card reverse">
+        <div class="date-copy">
+          <div class="kicker">02 · our second date</div>
+          <h3>The little moment that changed everything.</h3>
+          <p>The detail I want to keep is that tiny peck from you. It was our first time letting our lips meet, and no matter how small it looked from the outside, I'll always know exactly why it mattered to me.</p>
+          <a class="date-open" href="date2.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/IMG_20260411_131830(1).jpg" alt="">
+          <img src="assets/IMG-20260322-WA0004.jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card">
+        <div class="date-copy">
+          <div class="kicker">03 · 25 April 2026</div>
+          <h3>When being together started feeling easy.</h3>
+          <p>The detail I want to keep is how comfortable it had become to simply sit beside you. We didn't need a huge plan for the day to feel worth remembering.</p>
+          <a class="date-open" href="date3.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/IMG-20260425-WA0012(1).jpg" alt="">
+          <img src="assets/IMG-20260425-WA0021(1).jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card reverse">
+        <div class="date-copy">
+          <div class="kicker">04 · 05 May 2026</div>
+          <h3>Our little Pizza Dot Com tradition.</h3>
+          <p>The detail I want to keep is looking across the table at you and realizing that the place itself was slowly becoming part of our story because we'd shared it so many times.</p>
+          <a class="date-open" href="date4.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/IMG-20260505-WA0023(1).jpg" alt="">
+          <img src="assets/IMG-20260505-WA0027(1).jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card">
+        <div class="date-copy">
+          <div class="kicker">05 · hotel chapter</div>
+          <h3>An evening away from our usual routine.</h3>
+          <p>The detail I want to keep is the evening walk — being beside you somewhere different, with no need for the moment to be complicated or impressive.</p>
+          <a class="date-open" href="date5.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/Snapchat-50408890(1).jpg" alt="">
+          <img src="assets/Snapchat-1396571852.jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card reverse">
+        <div class="date-copy">
+          <div class="kicker">06 · 14 June 2026</div>
+          <h3>A night I wish could have lasted longer.</h3>
+          <p>The detail I want to keep is the feeling of walking beside you under the evening lights. It made the whole world feel a little quieter for a while.</p>
+          <a class="date-open" href="date6.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/20260614_210057(4).jpg" alt="">
+          <img src="assets/20260614_210059(4).jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card">
+        <div class="date-copy">
+          <div class="kicker">07 · our seventh</div>
+          <h3>When the person mattered more than the place.</h3>
+          <p>The detail I want to keep is realizing that I wasn't going to remember the date because of where we went. I was going to remember it because I was there with you.</p>
+          <a class="date-open" href="date7.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/Snapchat-2117983171.jpg" alt="">
+          <img src="assets/Snapchat-991624425.jpg" alt="">
+        </div>
+      </article>
+      <article class="date-card reverse">
+        <div class="date-copy">
+          <div class="kicker">08 · 14 August 2026</div>
+          <h3>A little rain before you had to leave.</h3>
+          <p>The detail I want to keep is how an ordinary goodbye turned into a tiny adventure — firni, kulcha under an umbrella, a hurried walk through the rain, and a few more minutes together at the bus station.</p>
+          <a class="date-open" href="date8.html" target="_self">Open this date <span>→</span></a>
+        </div>
+        <div class="date-fade" aria-hidden="true">
+          <img src="assets/date8-rainy-together.jpg" alt="">
+          <img src="assets/date8-bus-stop.jpg" alt="">
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner story-grid">
+    <div class="chapter-photo reveal"><img src="assets/IMG-20260617-WA0004.jpg" alt="A memory of us"></div>
+    <div>
+      <div class="kicker reveal">06 · the first four</div>
+      <h2 class="reveal d1">Pizza, stolen hours & you.</h2>
+      <p class="reveal d2">On those first four dates, you somehow managed to make time for me around your clinical duty. You would come meet me, we'd spend our time together, and then you'd return to the hospital when it was time for the bus.</p>
+      <p class="reveal d3">I don't remember those days because they were extravagant. I remember them because you were there.</p>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner center">
+    <div class="kicker reveal">07 · one tiny moment</div>
+    <h2 class="reveal d1">And then you kissed me.</h2>
+    <p class="note reveal d2">Our second date holds one of those memories that sounds small when you tell someone else about it, but never felt small to me.</p>
+    <p class="reveal d2">The first time our lips met wasn't some dramatic movie scene. It was just a little peck from you.</p>
+    <p class="quote reveal d3">Just a peck. Somehow, still one of the moments I'll remember for a very long time.</p>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner story-grid">
+    <div>
+      <div class="kicker reveal">08 · then came the hotel chapter</div>
+      <h2 class="reveal d1">Sometimes the place didn't matter.</h2>
+      <p class="reveal d2">For the later dates, we stayed at a hotel, went out for evening walks, found a nearby spot and ate burgers.</p>
+      <p class="reveal d3">It wasn't about doing something extraordinary. It was about walking beside you, looking at you, talking to you, and getting to have those hours together.</p>
+    </div>
+    <div class="chapter-photo reveal d2"><img src="assets/IMG-20260531-WA0009.jpg" alt="A memory from our later dates"></div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner center">
+    <div class="kicker reveal">09 · the little things</div>
+    <h2 class="reveal d1">I know the small version of you too.</h2>
+    <p class="note reveal d2">The girl who loves drawing, even though she hasn't drawn anything in a while. The girl who used to have endless things to say about her principal.</p>
+    <p class="reveal d2">The girl who can be on her phone while we're video calling, answer me perfectly, and somehow make me wonder whether what I said went completely over her head.</p>
+    <p class="reveal d3">Those little habits are part of the person I love too.</p>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner center">
+    <div class="kicker reveal">10 · the imperfect parts</div>
+    <h2 class="reveal d1">We're not perfect.</h2>
+    <p class="note reveal d2">Sometimes I get jealous. Sometimes I get overprotective. Sometimes I get irritated and say things more harshly than I should.</p>
+    <p class="reveal d2">I know there are moments where I need to do better. Loving you doesn't mean I get to control you. It means I need to be honest about what I feel while still respecting your choices and trusting you.</p>
+    <p class="reveal d3">I don't always get that right. But I want to keep learning.</p>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="scene-inner center">
+    <div class="kicker reveal">11 · what you mean to me</div>
+    <h2 class="reveal d1">You mean more to me than these photographs can show.</h2>
+    <p class="note reveal d2">I love you for the big things, but also for the tiny things that probably wouldn't make sense to anyone else.</p>
+    <p class="reveal d2">I love the way it feels when you're beside me. I love looking at you and knowing that somehow, out of all the people in the world, I get to call you mine.</p>
+    <p class="reveal d3">I love the memories we've already made, and I love knowing there are so many ordinary days left for us to turn into memories too.</p>
+  </div>
+  <div class="fade-photo f3 reveal d2"><img src="assets/IMG-20260617-WA0004.jpg" alt="A later memory together"></div>
+</section>
+
+<section class="scene center">
+  <div class="scene-inner">
+    <div class="kicker reveal">12 · to be continued</div>
+    <h2 class="reveal d1">This isn't the end of our story.</h2>
+    <p class="note reveal d2">These are only the memories we've collected so far.</p>
+    <p class="quote reveal d2">And if all of this came from one accidental Instagram message, I'm pretty happy to see what comes next.</p>
+    <p class="reveal d3">I love you, Meenu.</p>
+    <p class="reveal d3">— Arshdeep</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+const growth=[
+  "assets/Screenshot_20260318_193304(1).jpg",
+  "assets/IMG-20260607-WA0004.jpg",
+  "assets/IMG-20260617-WA0004.jpg",
+  "assets/Snapchat-422405295.jpg"
+];
+const cloud=document.getElementById("growthCloud");
+growth.forEach(f=>{
+  const w=document.createElement("div");
+  w.className="cloud-item";
+  const im=document.createElement("img");
+  im.src=f; im.alt="A memory";
+  w.appendChild(im); cloud.appendChild(w);
+});
+const scenes=[...document.querySelectorAll(".scene")];
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("active");});
+},{threshold:.35});
+scenes.forEach(s=>obs.observe(s));
+</script>
+
+
+<script>
+(function(){
+  const story = document.querySelector(".scroll-story");
+  if(!story) return;
+
+  const KEY = "arshdeep_meenu_story_position";
+
+  // Restore the exact position after the page has laid out all content.
+  const saved = sessionStorage.getItem(KEY);
+  if(saved !== null){
+    const y = Number(saved);
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        story.scrollTop = y;
+      });
+    });
+  }
+
+  // Save the exact scroll position when any date link is opened.
+  document.querySelectorAll('a[href^="date"]').forEach(link=>{
+    link.addEventListener("click",()=>{
+      sessionStorage.setItem(KEY, String(story.scrollTop));
+      sessionStorage.setItem("arshdeep_meenu_returning", "1");
+    });
+  });
+
+  // Also save continuously so accidental navigation/back still has the latest spot.
+  let timer;
+  story.addEventListener("scroll",()=>{
+    clearTimeout(timer);
+    timer=setTimeout(()=>{
+      sessionStorage.setItem(KEY, String(story.scrollTop));
+    },80);
+  },{passive:true});
+})();
+</script>
+
+
+<script>
+(function(){
+  const PASSWORD = "Rani";
+  const gate = document.getElementById("passwordGate");
+  const form = document.getElementById("passwordForm");
+  const input = document.getElementById("storyPassword");
+  const error = document.getElementById("passwordError");
+  const KEY = "arshdeep_meenu_unlocked";
+
+  function unlock(){
+    sessionStorage.setItem(KEY,"1");
+    gate.classList.add("hidden");
+    document.body.classList.remove("locked");
+    setTimeout(()=>gate.remove(),850);
+  }
+
+  if(sessionStorage.getItem(KEY)==="1"){
+    gate.remove();
+    document.body.classList.remove("locked");
+  }else{
+    setTimeout(()=>input.focus(),300);
+  }
+
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(input.value === PASSWORD){
+      error.textContent="";
+      unlock();
+    }else{
+      error.textContent="Not quite. Try again, my love. ♡";
+      input.value="";
+      input.focus();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
